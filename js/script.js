@@ -3,7 +3,6 @@
 // ==========================================
 const supabaseUrl = 'https://etijsbxyidgjqjxmhxmr.supabase.co'; 
 const supabaseKey = 'sb_publishable_B0FafSksKHq1yukFmp-Iuw_wfd8H8YP';
-
 const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 // --- Estado --- //
