@@ -1,9 +1,9 @@
 // ==========================================
-// CONFIGURAÇÃO DO SUPABASE (COLE AQUI)
+// CONFIGURAÇÃO DO SUPABASE
 // ==========================================
 const supabaseUrl = 'https://etijsbxyidgjqjxmhxmr.supabase.co'; 
 const supabaseKey = 'sb_publishable_B0FafSksKHq1yukFmp-Iuw_wfd8H8YP';
-const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey); // Ajustado para remover o window.
 
 // --- Estado --- //
 let items = [];
@@ -77,11 +77,12 @@ async function saveItem() {
     btn.disabled = true;
     btn.textContent = 'Salvando...';
 
+    // REMOVIDO PREÇO E LOCALIZAÇÃO DAQUI
     const itemData = {
-    nome,
-    cat: document.getElementById('f-cat').value.trim() || 'Geral',
-    qty: parseInt(document.getElementById('f-qty').value) || 0,
-    min: parseInt(document.getElementById('f-min').value) || 0,
+        nome,
+        cat: document.getElementById('f-cat').value.trim() || 'Geral',
+        qty: parseInt(document.getElementById('f-qty').value) || 0,
+        min: parseInt(document.getElementById('f-min').value) || 0
     };
 
     if (editId) {
@@ -159,34 +160,33 @@ function render() {
 
     const list = items.filter(i => {
         const busca = i.nome.toLowerCase().includes(q) || i.cat.toLowerCase().includes(q);
-
         const statusOk = !statusFiltro || status(i.qty, i.min) === statusFiltro;
         const categoriaOk = !categoriaFiltro || i.cat === categoriaFiltro;
         return busca && statusOk && categoriaOk;
-    }
-);
+    });
 
-// Stats
-const low = items.filter(i => status(i.qty,i.min) === 'low').length;
-const out = items.filter(i => status(i.qty,i.min) === 'out').length;
+    // Stats - VALOR TOTAL REMOVIDO
+    const low = items.filter(i => status(i.qty,i.min) === 'low').length;
+    const out = items.filter(i => status(i.qty,i.min) === 'out').length;
 
-document.getElementById('stats').innerHTML = `
-    <div class="stat"><div class="label">Total de itens</div><div class="value">${items.length}</div></div>
-    <div class="stat"><div class="label">Estoque baixo</div><div class="value warn">${low}</div></div>
-    <div class="stat"><div class="label">Sem estoque</div><div class="value danger">${out}</div></div>
-`;
+    document.getElementById('stats').innerHTML = `
+        <div class="stat"><div class="label">Total de itens</div><div class="value">${items.length}</div></div>
+        <div class="stat"><div class="label">Estoque baixo</div><div class="value warn">${low}</div></div>
+        <div class="stat"><div class="label">Sem estoque</div><div class="value danger">${out}</div></div>
+    `;
 
-// Table
-const tbody = document.getElementById('tbody');
-const empty = document.getElementById('empty');
+    // Table
+    const tbody = document.getElementById('tbody');
+    const empty = document.getElementById('empty');
 
-if (!list.length) {
-    tbody.innerHTML = '';
-    empty.classList.remove('hidden');
+    if (!list.length) {
+        tbody.innerHTML = '';
+        empty.classList.remove('hidden');
     } else {
         empty.classList.add('hidden');
         tbody.innerHTML = list.map(i => {
             const s = status(i.qty, i.min);
+            // COLUNAS DE PREÇO E LOCALIZAÇÃO REMOVIDAS DO HTML DA TABELA
             return `<tr>
                 <td class="name">${esc(i.nome)}</td>
                 <td>${esc(i.cat)}</td>
@@ -194,7 +194,6 @@ if (!list.length) {
                 <td>${i.min}</td>
                 <td><span class="badge ${s}">${statusLabel(s)}</span></td>
                 <td>
-
                     <div class="actions">
                         <button class="btn sm icon-btn" onclick="openModal(${i.id})" title="Editar">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -209,7 +208,6 @@ if (!list.length) {
                             <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1-1v2"/></svg>
                         </button>
                     </div>
-
                 </td>
             </tr>`;
         }).join('');
@@ -228,8 +226,8 @@ function openModal(id) {
     document.getElementById('f-cat').value = item?.cat || '';
     document.getElementById('f-qty').value = item != null ? item.qty : '';
     document.getElementById('f-min').value = item != null ? item.min : '';
-    document.getElementById('f-price').value = item != null ? item.price : '';
-    document.getElementById('f-loc').value = item?.loc || '';
+    
+    // PREENCHIMENTO DE PREÇO E LOCALIZAÇÃO REMOVIDOS DAQUI
     
     document.getElementById('f-nome').classList.remove('error');
     document.getElementById('overlay').classList.remove('hidden');
@@ -250,31 +248,32 @@ async function exportXLSX() {
             Nome: i.nome,
             Categoria: i.cat,
             Quantidade: i.qty,
-            Mínimo: i.min,
-    }));
+            Mínimo: i.min
+            // PREÇO E LOCALIZAÇÃO REMOVIDOS DO EXCEL
+        }));
 
-    const ws = XLSX.utils.json_to_sheet(rows);
-    ws['!cols'] = [{ wch: 26 }, { wch: 16 }, { wch: 12 }, { wch: 10 }];
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Estoque');
-    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const ws = XLSX.utils.json_to_sheet(rows);
+        ws['!cols'] = [{ wch: 26 }, { wch: 16 }, { wch: 12 }, { wch: 10 }];
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Estoque');
+        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
 
-    if (!fileHandle) {
-        fileHandle = await window.showSaveFilePicker({
-            suggestedName: 'estoque.xlsx',
-            types: [{
-                description: 'Planilha Excel',
-                accept: { 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'] }
-            }]
-        });
-    }
+        if (!fileHandle) {
+            fileHandle = await window.showSaveFilePicker({
+                suggestedName: 'estoque.xlsx',
+                types: [{
+                    description: 'Planilha Excel',
+                    accept: { 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'] }
+                }]
+            });
+        }
 
-    const writable = await fileHandle.createWritable();
-    await writable.write(excelBuffer);
-    await writable.close();
+        const writable = await fileHandle.createWritable();
+        await writable.write(excelBuffer);
+        await writable.close();
         toast('Arquivo exportado com sucesso!');
     } catch (err) {
-    console.error(err);
+        console.error(err);
         toast('Exportação cancelada ou falhou.');
     }
 }
@@ -299,13 +298,14 @@ function handleFile(input) {
             }
 
             if (!confirm('ATENÇÃO: O banco de dados atual será APAGADO e substituído pelos itens da planilha. Continuar?')) return;
-                toast('Processando...');
+            toast('Processando...');
 
             const novos = data.map(r => ({
                 nome: r['Nome'] || r['nome'] || 'Item sem nome',
                 cat: r['Categoria'] || r['categoria'] || 'Geral',
                 qty: parseInt(r['Quantidade'] || r['quantidade'] || 0),
-                min: parseInt(r['Mínimo'] || r['minimo'] || 0),
+                min: parseInt(r['Mínimo'] || r['minimo'] || 0)
+                // PREÇO E LOCALIZAÇÃO REMOVIDOS DA IMPORTAÇÃO
             }));
 
             const { error: delErr } = await supabaseClient.from('estoque').delete().not('id', 'is', null);
@@ -313,8 +313,8 @@ function handleFile(input) {
             const { error: insErr } = await supabaseClient.from('estoque').insert(novos);
 
             if (insErr) throw insErr;
-                toast(`Sucesso! ${novos.length} itens importados.`);
-                carregarEstoque();
+            toast(`Sucesso! ${novos.length} itens importados.`);
+            carregarEstoque();
         } catch (err) {
             console.error(err);
             alert('Erro ao processar o arquivo. Verifique o console.');
