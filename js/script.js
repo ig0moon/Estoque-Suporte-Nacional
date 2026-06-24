@@ -82,8 +82,6 @@ async function saveItem() {
     cat: document.getElementById('f-cat').value.trim() || 'Geral',
     qty: parseInt(document.getElementById('f-qty').value) || 0,
     min: parseInt(document.getElementById('f-min').value) || 0,
-    price: parseFloat(document.getElementById('f-price').value) || 0,
-    loc: document.getElementById('f-loc').value.trim() || '-',
     };
 
     if (editId) {
@@ -160,8 +158,7 @@ function render() {
     const categoriaFiltro = document.getElementById('filter-cat').value;
 
     const list = items.filter(i => {
-        const busca = i.nome.toLowerCase().includes(q) || 
-        i.cat.toLowerCase().includes(q) || (i.loc || '').toLowerCase().includes(q);
+        const busca = i.nome.toLowerCase().includes(q) || i.cat.toLowerCase().includes(q);
 
         const statusOk = !statusFiltro || status(i.qty, i.min) === statusFiltro;
         const categoriaOk = !categoriaFiltro || i.cat === categoriaFiltro;
@@ -170,7 +167,6 @@ function render() {
 );
 
 // Stats
-const totalValor = items.reduce((a,i) => a + i.qty * i.price, 0);
 const low = items.filter(i => status(i.qty,i.min) === 'low').length;
 const out = items.filter(i => status(i.qty,i.min) === 'out').length;
 
@@ -178,7 +174,6 @@ document.getElementById('stats').innerHTML = `
     <div class="stat"><div class="label">Total de itens</div><div class="value">${items.length}</div></div>
     <div class="stat"><div class="label">Estoque baixo</div><div class="value warn">${low}</div></div>
     <div class="stat"><div class="label">Sem estoque</div><div class="value danger">${out}</div></div>
-    <div class="stat"><div class="label">Valor total</div><div class="value">R$&nbsp;${totalValor.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div></div>
 `;
 
 // Table
@@ -197,8 +192,6 @@ if (!list.length) {
                 <td>${esc(i.cat)}</td>
                 <td>${i.qty}</td>
                 <td>${i.min}</td>
-                <td>R$ ${i.price.toFixed(2)}</td>
-                <td>${esc(i.loc)}</td>
                 <td><span class="badge ${s}">${statusLabel(s)}</span></td>
                 <td>
 
@@ -258,12 +251,10 @@ async function exportXLSX() {
             Categoria: i.cat,
             Quantidade: i.qty,
             Mínimo: i.min,
-            Preço: i.price,
-            Localização: i.loc
     }));
 
     const ws = XLSX.utils.json_to_sheet(rows);
-    ws['!cols'] = [{ wch: 26 }, { wch: 16 }, { wch: 12 }, { wch: 10 }, { wch: 10 }, { wch: 16 }];
+    ws['!cols'] = [{ wch: 26 }, { wch: 16 }, { wch: 12 }, { wch: 10 }];
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Estoque');
     const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
@@ -315,8 +306,6 @@ function handleFile(input) {
                 cat: r['Categoria'] || r['categoria'] || 'Geral',
                 qty: parseInt(r['Quantidade'] || r['quantidade'] || 0),
                 min: parseInt(r['Mínimo'] || r['minimo'] || 0),
-                price: parseFloat(r['Preço'] || r['preco'] || 0),
-                loc: r['Localização'] || r['localizacao'] || '-'
             }));
 
             const { error: delErr } = await supabaseClient.from('estoque').delete().not('id', 'is', null);
