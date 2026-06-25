@@ -3,12 +3,13 @@
 // ==========================================
 const supabaseUrl = 'https://etijsbxyidgjqjxmhxmr.supabase.co'; 
 const supabaseKey = 'sb_publishable_B0FafSksKHq1yukFmp-Iuw_wfd8H8YP';
-const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey); // Ajustado para remover o window.
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 // --- Estado --- //
 let items = [];
 let editId = null;
 let fileHandle = null;
+let userRole = 'leitor'; // Todo usuário começa como leitor no front-end até conferir o banco
 
 // ==========================================
 // AUTENTICAÇÃO E LOGIN
@@ -16,9 +17,20 @@ let fileHandle = null;
 async function verificarSessao() {
     const { data: { session } } = await supabaseClient.auth.getSession();
     if (session) {
-        iniciarApp();
+        iniciarApp(session.user);
     } else {
-        document.getElementById('login-screen').classList.remove('hidden');
+        document.getElementById('auth-screen').classList.remove('hidden');
+    }
+}
+
+// Alterna entre a caixa de Login e Registro
+function toggleAuth(type) {
+    if (type === 'register') {
+        document.getElementById('login-box').classList.add('hidden');
+        document.getElementById('register-box').classList.remove('hidden');
+    } else {
+        document.getElementById('register-box').classList.add('hidden');
+        document.getElementById('login-box').classList.remove('hidden');
     }
 }
 
@@ -27,12 +39,55 @@ async function fazerLogin() {
     const password = document.getElementById('login-senha').value;
 
     if(!email || !password) return toast('Preencha email e senha');
+    
+    const btn = document.getElementById('btn-login');
+    btn.disabled = true;
+    btn.textContent = 'Entrando...';
+
     const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+    btn.disabled = false;
+    btn.textContent = 'Entrar no Sistema';
 
     if (error) {
         toast('Erro: Credenciais inválidas');
     } else {
-        iniciarApp();
+        iniciarApp(data.user);
+    }
+}
+
+async function fazerRegistro() {
+    const nome = document.getElementById('reg-nome').value.trim();
+    const email = document.getElementById('reg-email').value.trim();
+    const password = document.getElementById('reg-senha').value;
+
+    if(!nome || !email || !password) return toast('Preencha todos os campos');
+    if(password.length < 6) return toast('A senha deve ter no mínimo 6 caracteres');
+    
+    const btn = document.getElementById('btn-register');
+    btn.disabled = true;
+    btn.textContent = 'Cadastrando...';
+
+    const { data, error } = await supabaseClient.auth.signUp({ 
+        email, 
+        password,
+        options: {
+            data: { nome: nome }
+        }
+    });
+
+    btn.disabled = false;
+    btn.textContent = 'Cadastrar';
+
+    if (error) {
+        toast('Erro: ' + (error.message || 'Verifique os dados.'));
+    } else {
+        toast('Conta criada com sucesso!');
+        document.getElementById('reg-nome').value = '';
+        document.getElementById('reg-email').value = '';
+        document.getElementById('reg-senha').value = '';
+        document.getElementById('login-email').value = email;
+        toggleAuth('login');
     }
 }
 
@@ -41,9 +96,32 @@ async function fazerLogout() {
     location.reload();
 }
 
-function iniciarApp() {
-    document.getElementById('login-screen').classList.add('hidden');
+async function iniciarApp(user) {
+    document.getElementById('auth-screen').classList.add('hidden');
     document.getElementById('app-content').style.display = 'block';
+
+    // 1. Busca o cargo do usuário na tabela profiles
+    if (user) {
+        const { data, error } = await supabaseClient
+            .from('profiles')
+            .select('cargo')
+            .eq('id', user.id)
+            .single();
+
+        if (data && data.cargo) {
+            userRole = data.cargo;
+        }
+    }
+
+    // 2. Esconde botões do painel superior se for apenas 'leitor'
+    const btnNovoItem = document.querySelector('button[onclick="openModal()"]');
+    const btnImportar = document.querySelector('button[onclick="importXLSX()"]');
+    
+    if (userRole === 'leitor') {
+        if (btnNovoItem) btnNovoItem.style.display = 'none';
+        if (btnImportar) btnImportar.style.display = 'none';
+    }
+
     carregarEstoque();
 }
 
@@ -77,7 +155,6 @@ async function saveItem() {
     btn.disabled = true;
     btn.textContent = 'Salvando...';
 
-    // REMOVIDO PREÇO E LOCALIZAÇÃO DAQUI
     const itemData = {
         nome,
         cat: document.getElementById('f-cat').value.trim() || 'Geral',
@@ -86,12 +163,10 @@ async function saveItem() {
     };
 
     if (editId) {
-        // UPDATE
         const { error } = await supabaseClient.from('estoque').update(itemData).eq('id', editId);
         if (error) toast('Erro ao atualizar');
         else toast('Item atualizado');
     } else {
-        // INSERT
         const { error } = await supabaseClient.from('estoque').insert([itemData]);
         if (error) toast('Erro ao adicionar');
         else toast('Item adicionado');
@@ -165,7 +240,6 @@ function render() {
         return busca && statusOk && categoriaOk;
     });
 
-    // Stats - VALOR TOTAL REMOVIDO
     const low = items.filter(i => status(i.qty,i.min) === 'low').length;
     const out = items.filter(i => status(i.qty,i.min) === 'out').length;
 
@@ -175,7 +249,6 @@ function render() {
         <div class="stat"><div class="label">Sem estoque</div><div class="value danger">${out}</div></div>
     `;
 
-    // Table
     const tbody = document.getElementById('tbody');
     const empty = document.getElementById('empty');
 
@@ -186,14 +259,11 @@ function render() {
         empty.classList.add('hidden');
         tbody.innerHTML = list.map(i => {
             const s = status(i.qty, i.min);
-            // COLUNAS DE PREÇO E LOCALIZAÇÃO REMOVIDAS DO HTML DA TABELA
-            return `<tr>
-                <td class="name">${esc(i.nome)}</td>
-                <td>${esc(i.cat)}</td>
-                <td>${i.qty}</td>
-                <td>${i.min}</td>
-                <td><span class="badge ${s}">${statusLabel(s)}</span></td>
-                <td>
+            
+            // 3. Monta os botões da tabela dependendo do cargo
+            let acoesHtml = '';
+            if (userRole === 'editor' || userRole === 'admin') {
+                acoesHtml = `
                     <div class="actions">
                         <button class="btn sm icon-btn" onclick="openModal(${i.id})" title="Editar">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -208,7 +278,18 @@ function render() {
                             <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1-1v2"/></svg>
                         </button>
                     </div>
-                </td>
+                `;
+            } else {
+                acoesHtml = `<span style="font-size: 11px; color: var(--text-muted)">Apenas leitura</span>`;
+            }
+
+            return `<tr>
+                <td class="name">${esc(i.nome)}</td>
+                <td>${esc(i.cat)}</td>
+                <td>${i.qty}</td>
+                <td>${i.min}</td>
+                <td><span class="badge ${s}">${statusLabel(s)}</span></td>
+                <td>${acoesHtml}</td>
             </tr>`;
         }).join('');
     }
@@ -226,8 +307,6 @@ function openModal(id) {
     document.getElementById('f-cat').value = item?.cat || '';
     document.getElementById('f-qty').value = item != null ? item.qty : '';
     document.getElementById('f-min').value = item != null ? item.min : '';
-    
-    // PREENCHIMENTO DE PREÇO E LOCALIZAÇÃO REMOVIDOS DAQUI
     
     document.getElementById('f-nome').classList.remove('error');
     document.getElementById('overlay').classList.remove('hidden');
@@ -249,7 +328,6 @@ async function exportXLSX() {
             Categoria: i.cat,
             Quantidade: i.qty,
             Mínimo: i.min
-            // PREÇO E LOCALIZAÇÃO REMOVIDOS DO EXCEL
         }));
 
         const ws = XLSX.utils.json_to_sheet(rows);
@@ -305,7 +383,6 @@ function handleFile(input) {
                 cat: r['Categoria'] || r['categoria'] || 'Geral',
                 qty: parseInt(r['Quantidade'] || r['quantidade'] || 0),
                 min: parseInt(r['Mínimo'] || r['minimo'] || 0)
-                // PREÇO E LOCALIZAÇÃO REMOVIDOS DA IMPORTAÇÃO
             }));
 
             const { error: delErr } = await supabaseClient.from('estoque').delete().not('id', 'is', null);

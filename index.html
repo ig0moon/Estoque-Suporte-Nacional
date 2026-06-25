@@ -11,9 +11,10 @@
 </head>
 
 <body>
-  <div id="login-screen" class="overlay">
-    <div class="modal">
-      <h2>Acesso Restrito</h2>
+  <div id="auth-screen" class="overlay">
+    
+    <div class="modal" id="login-box">
+      <h2>Login</h2>
       <div class="field">
         <label>E-mail</label>
         <input type="email" id="login-email" placeholder="seu@email.com">
@@ -22,8 +23,34 @@
         <label>Senha</label>
         <input type="password" id="login-senha" placeholder="••••••••">
       </div>
-      <button class="btn primary" style="width: 100%; margin-top: 10px;" onclick="fazerLogin()">Entrar no Sistema</button>
+      <button class="btn primary" id="btn-login" style="width: 100%; margin-top: 10px;" onclick="fazerLogin()">Entrar no Sistema</button>
+      
+      <div class="auth-link">
+        Não tem uma conta? <a href="#" onclick="toggleAuth('register'); return false;">Registre-se</a>
+      </div>
     </div>
+
+    <div class="modal hidden" id="register-box">
+      <h2>Registre-se</h2>
+      <div class="field">
+        <label>Nome Completo</label>
+        <input type="text" id="reg-nome" placeholder="Como quer ser chamado?">
+      </div>
+      <div class="field">
+        <label>E-mail</label>
+        <input type="email" id="reg-email" placeholder="seu@email.com">
+      </div>
+      <div class="field">
+        <label>Senha</label>
+        <input type="password" id="reg-senha" placeholder="Mínimo de 6 caracteres">
+      </div>
+      <button class="btn primary" id="btn-register" style="width: 100%; margin-top: 10px;" onclick="fazerRegistro()">Cadastrar</button>
+      
+      <div class="auth-link">
+        Já possui uma conta? <a href="#" onclick="toggleAuth('login'); return false;">Faça login</a>
+      </div>
+    </div>
+
   </div>
 
   <div id="app-content">
