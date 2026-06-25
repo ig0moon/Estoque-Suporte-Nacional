@@ -14,12 +14,44 @@
     --accent-hover: #0C447C;
     --danger: #dc2626;
     --danger-bg: #fef2f2;
+    --danger-hover: #fee2e2;
     --warning-bg: #fffbeb;
     --warning-text: #92400e;
     --success-bg: #f0fdf4;
     --success-text: #166534;
     --radius: 8px;
     --radius-lg: 12px;
+    
+    /* Variáveis extras para auxiliar o modo escuro */
+    --th-bg: #fafafa;
+    --row-hover: #f9fafb;
+    --btn-hover: #f3f4f6;
+    --toast-bg: #1a1a1a;
+    --toast-color: #ffffff;
+}
+
+/* --- MODO ESCURO --- */
+[data-theme="dark"] {
+    --bg: #121212;
+    --surface: #1e1e1e;
+    --border: #333333;
+    --text: #e4e4e7;
+    --text-muted: #a1a1aa;
+    --accent: #3b82f6;
+    --accent-hover: #2563eb;
+    --danger: #ef4444;
+    --danger-bg: #3f1919;
+    --danger-hover: #5c2020;
+    --warning-bg: #423010;
+    --warning-text: #fbbf24;
+    --success-bg: #12301c;
+    --success-text: #4ade80;
+    
+    --th-bg: #262626;
+    --row-hover: #2a2a2a;
+    --btn-hover: #2d2d2d;
+    --toast-bg: #f4f4f5;
+    --toast-color: #1a1a1a;
 }
 
 body {
@@ -29,6 +61,7 @@ body {
     font-size: 14px;
     line-height: 1.5;
     min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Utilitário Global para esconder itens */
@@ -56,6 +89,7 @@ header {
     display: flex;
     align-items: center;
     gap: .75rem;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 header svg {
@@ -88,6 +122,7 @@ header span {
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     padding: 1rem 1.25rem;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .stat .label {
@@ -134,7 +169,7 @@ input[type="text"].search, input[type="email"], input[type="password"] {
     background: var(--surface);
     color: var(--text);
     outline: none;
-    transition: border-color .15s;
+    transition: border-color .15s, background-color 0.3s ease, color 0.3s ease;
 }
 
 input[type="text"].search {
@@ -156,7 +191,9 @@ select.search {
     border-radius: var(--radius);
     font-size: 13px;
     background: var(--surface);
+    color: var(--text);
     outline: none;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.15s;
 }
 
 /* Buttons */
@@ -173,11 +210,11 @@ select.search {
     background: var(--surface);
     color: var(--text);
     cursor: pointer;
-    transition: background .15s, border-color .15s;
+    transition: background .15s, border-color .15s, color 0.15s;
     white-space: nowrap;
 }
 .btn:hover {
-    background: #f3f4f6;
+    background: var(--btn-hover);
 }
 
 .btn.primary {
@@ -206,7 +243,7 @@ select.search {
 }
 
 .btn.icon-btn.danger:hover {
-    background: #fee2e2;
+    background: var(--danger-hover);
 }
 
 /* Table */
@@ -215,6 +252,7 @@ select.search {
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     overflow: hidden;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 table {
@@ -230,8 +268,9 @@ th {
     text-transform: uppercase;
     color: var(--text-muted);
     padding: 10px 14px;
-    background: #fafafa;
+    background: var(--th-bg);
     border-bottom: 1px solid var(--border);
+    transition: background-color 0.3s ease;
 }
 
 td {
@@ -245,7 +284,7 @@ tr:last-child td {
 }
 
 tbody tr:hover td {
-    background: #f9fafb;
+    background: var(--row-hover);
 }
 
 td.name {
@@ -303,12 +342,14 @@ td.name {
     width: 100%;
     max-width: 400px;
     box-shadow: 0 8px 32px rgba(0,0,0,.12);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .modal h2 {
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 1.25rem;
+    color: var(--text);
 }
 
 .field {
@@ -332,7 +373,7 @@ td.name {
     background: var(--surface);
     color: var(--text);
     outline: none;
-    transition: border-color .15s;
+    transition: border-color .15s, background-color 0.3s ease, color 0.3s ease;
     font-family: inherit;
 }
 
@@ -376,15 +417,15 @@ td.name {
     position: fixed;
     bottom: 1.5rem;
     right: 1.5rem;
-    background: #1a1a1a;
-    color: #fff;
+    background: var(--toast-bg);
+    color: var(--toast-color);
     font-size: 13px;
     padding: 10px 16px;
     border-radius: var(--radius);
     z-index: 200;
     opacity: 0;
     transform: translateY(8px);
-    transition: opacity .2s, transform .2s;
+    transition: opacity .2s, transform .2s, background-color 0.3s, color 0.3s;
     pointer-events: none;
 }
 
