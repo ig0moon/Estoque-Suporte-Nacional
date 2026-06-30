@@ -19,7 +19,14 @@ async function verificarSessao() {
     if (session) {
         iniciarApp(session.user);
     } else {
-        document.getElementById('auth-screen').classList.remove('hidden');
+        const loginBox = document.getElementById('login-box');
+        if (loginBox) {
+            // Se o login-box existe, estamos no index.html (Hub). Mostra a tela de login.
+            document.getElementById('auth-screen').classList.remove('hidden');
+        } else {
+            // Se NÃO existe, estamos no estoque.html e o cara não tá logado. Expulsa pro index!
+            window.location.href = 'index.html';
+        }
     }
 }
 
@@ -129,6 +136,9 @@ async function iniciarApp(user) {
 // BANCO DE DADOS (CRUD)
 // ==========================================
 async function carregarEstoque() {
+    // TRAVA: Só continua se a tabela de estoque existir na página
+    if (!document.getElementById('tbody')) return; 
+
     toast('Carregando...');
     const { data, error } = await supabaseClient.from('estoque').select('*').order('nome');
 
@@ -219,6 +229,8 @@ function toast(msg) {
 
 function atualizarCategorias() {
     const select = document.getElementById('filter-cat');
+    if (!select) return; // TRAVA: Sai da função se não achar o filtro
+
     const categoriaAtual = select.value;
     const categorias = [...new Set(items.map(i => i.cat).filter(Boolean))].sort();
     
@@ -229,9 +241,12 @@ function atualizarCategorias() {
 }
 
 function render() {
-    const q = document.getElementById('search').value.toLowerCase();
+    const searchInput = document.getElementById('search');
+    if (!searchInput) return; // TRAVA: Sai da função se não achar a barra de pesquisa
+
+    const q = searchInput.value.toLowerCase();
     const statusFiltro = document.getElementById('filter-status').value;
-    const categoriaFiltro = document.getElementById('filter-cat').value;
+    const categoriaFiltro = document.getElementById('filter-cat').value
 
     const list = items.filter(i => {
         const busca = i.nome.toLowerCase().includes(q) || i.cat.toLowerCase().includes(q);
@@ -446,8 +461,11 @@ function updateThemeIcon(theme) {
 // ==========================================
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-const dataHeader = new Date().toLocaleDateString('pt-BR', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
-document.getElementById('header-date').textContent = dataHeader.charAt(0).toUpperCase() + dataHeader.slice(1);
+const elDate = document.getElementById('header-date');
+if (elDate) {
+    const dataHeader = new Date().toLocaleDateString('pt-BR', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+    elDate.textContent = dataHeader.charAt(0).toUpperCase() + dataHeader.slice(1);
+}
 
 initTheme(); // Adicionado para verificar o tema ao carregar
 verificarSessao();

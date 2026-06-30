@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="./img/nacional.ico" type="image/x-icon">
+  <link rel="stylesheet" href="css/style.css">
+  <title>PCs - Nacional</title>
+</head>
+
+<body>
+  <div id="auth-screen" class="overlay hidden"></div>
+
+  <div id="app-content" style="display: block;">
+    <header>
+      <div style="display:flex; align-items:center; gap:15px; flex: 1;">
+        <a href="index.html" class="btn sm icon-btn" title="Voltar ao Hub">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        </a>
+        <h1>PCs do Escritório</h1>
+      </div>
+      
+      <span id="header-date"></span>
+      
+      <button class="btn sm icon-btn" onclick="toggleDarkMode()" style="margin-left: 15px;" title="Alternar Modo Escuro">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="theme-icon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      </button>
+
+      <button class="btn sm" onclick="fazerLogout()" style="margin-left: 10px;">Sair</button>
+    </header>
+
+    <div class="container">
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <input type="text" class="search" id="search-pcs" placeholder="🔍 Buscar PC..." oninput="carregarPCs()">
+        </div>
+        <div class="toolbar-right">
+          <button class="btn primary" onclick="abrirModalPC()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Cadastrar PC
+          </button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Funcionário</th>
+              <th>Nº de Série</th>
+              <th>Configuração</th>
+              <th>Carteira</th>
+              <th>Supervisor</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-pcs"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Unificado de PCs -->
+  <div class="overlay hidden" id="overlay-pc" onclick="if(event.target===this)fecharModalPC()">
+    <div class="modal">
+      <h2 id="modal-title">Cadastrar PC</h2>
+      <input type="hidden" id="f-id">
+      
+      <div class="field">
+        <label>Funcionário *</label>
+        <input id="f-func" type="text" placeholder="Nome do colaborador">
+      </div>
+      <div class="field">
+        <label>Número de Série *</label>
+        <input id="f-serie" type="text" placeholder="Ex: BR123456">
+      </div>
+      <div class="field">
+        <label>Carteira</label>
+        <input id="f-carteira" type="text" placeholder="Ex: Carteira A">
+      </div>
+      <div class="field">
+        <label>Supervisor</label>
+        <input id="f-supervisor" type="text" placeholder="Nome do supervisor">
+      </div>
+      <div class="field">
+        <label>Configuração </label>
+        <textarea id="f-pecas" class="auto-resize-area" rows="3" placeholder="Ex: i5, 16GB RAM&#10;SSD 512GB"></textarea>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn" onclick="fecharModalPC()">Cancelar</button>
+        <button class="btn primary" id="btn-save-pc" onclick="salvarPC()">Cadastrar PC</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/script.js"></script>
+  <script src="js/pcs.js"></script>
+</body>
+</html>
