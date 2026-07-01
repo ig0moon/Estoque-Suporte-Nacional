@@ -1,6 +1,5 @@
-// ==========================================
 // LÓGICA DE PCs DO ESCRITÓRIO 
-// ==========================================
+
 (function() {
     let listaPCs = []; 
     let usuarioTemPermissao = false; // Por padrão, bloqueia tudo até provar o contrário
