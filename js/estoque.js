@@ -1,5 +1,5 @@
 // ==========================================
-// CONFIGURAÇÃO DO SUPABASE
+// CONFIGURAÇÃO DO SUPABASE (estoque.js)
 // ==========================================
 const supabaseUrl = 'https://etijsbxyidgjqjxmhxmr.supabase.co'; 
 const supabaseKey = 'sb_publishable_B0FafSksKHq1yukFmp-Iuw_wfd8H8YP';
@@ -9,102 +9,27 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 let items = [];
 let editId = null;
 let fileHandle = null;
-let userRole = 'leitor'; // Todo usuário começa como leitor no front-end até conferir o banco
+let userRole = 'leitor'; 
 
 // ==========================================
-// AUTENTICAÇÃO E LOGIN
+// CONTROLE DE SESSÃO E PERMISSÕES
 // ==========================================
 async function verificarSessao() {
     const { data: { session } } = await supabaseClient.auth.getSession();
     if (session) {
         iniciarApp(session.user);
     } else {
-        const loginBox = document.getElementById('login-box');
-        if (loginBox) {
-            // Se o login-box existe, estamos no index.html (Hub). Mostra a tela de login.
-            document.getElementById('auth-screen').classList.remove('hidden');
-        } else {
-            // Se NÃO existe, estamos no estoque.html e o cara não tá logado. Expulsa pro index!
-            window.location.href = 'index.html';
-        }
-    }
-}
-
-// Alterna entre a caixa de Login e Registro
-function toggleAuth(type) {
-    if (type === 'register') {
-        document.getElementById('login-box').classList.add('hidden');
-        document.getElementById('register-box').classList.remove('hidden');
-    } else {
-        document.getElementById('register-box').classList.add('hidden');
-        document.getElementById('login-box').classList.remove('hidden');
-    }
-}
-
-async function fazerLogin() {
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-senha').value;
-
-    if(!email || !password) return toast('Preencha email e senha');
-    
-    const btn = document.getElementById('btn-login');
-    btn.disabled = true;
-    btn.textContent = 'Entrando...';
-
-    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-
-    btn.disabled = false;
-    btn.textContent = 'Entrar no Sistema';
-
-    if (error) {
-        toast('Erro: Credenciais inválidas');
-    } else {
-        iniciarApp(data.user);
-    }
-}
-
-async function fazerRegistro() {
-    const nome = document.getElementById('reg-nome').value.trim();
-    const email = document.getElementById('reg-email').value.trim();
-    const password = document.getElementById('reg-senha').value;
-
-    if(!nome || !email || !password) return toast('Preencha todos os campos');
-    if(password.length < 6) return toast('A senha deve ter no mínimo 6 caracteres');
-    
-    const btn = document.getElementById('btn-register');
-    btn.disabled = true;
-    btn.textContent = 'Cadastrando...';
-
-    const { data, error } = await supabaseClient.auth.signUp({ 
-        email, 
-        password,
-        options: {
-            data: { nome: nome }
-        }
-    });
-
-    btn.disabled = false;
-    btn.textContent = 'Cadastrar';
-
-    if (error) {
-        toast('Erro: ' + (error.message || 'Verifique os dados.'));
-    } else {
-        toast('Conta criada com sucesso!');
-        document.getElementById('reg-nome').value = '';
-        document.getElementById('reg-email').value = '';
-        document.getElementById('reg-senha').value = '';
-        document.getElementById('login-email').value = email;
-        toggleAuth('login');
+        // Expulsa pro index se tentar acessar sem logar
+        window.location.href = 'index.html';
     }
 }
 
 async function fazerLogout() {
     await supabaseClient.auth.signOut();
-    location.reload();
+    window.location.href = 'index.html';
 }
 
 async function iniciarApp(user) {
-    document.getElementById('auth-screen').classList.add('hidden');
     document.getElementById('app-content').style.display = 'block';
 
     // 1. Busca o cargo do usuário na tabela profiles
@@ -136,7 +61,6 @@ async function iniciarApp(user) {
 // BANCO DE DADOS (CRUD)
 // ==========================================
 async function carregarEstoque() {
-    // TRAVA: Só continua se a tabela de estoque existir na página
     if (!document.getElementById('tbody')) return; 
 
     toast('Carregando...');
@@ -222,14 +146,16 @@ function esc(s) {
 
 function toast(msg) {
     const el = document.getElementById('toast');
-    el.textContent = msg;
-    el.classList.add('show');
-    setTimeout(() => el.classList.remove('show'), 2500);
+    if(el) {
+        el.textContent = msg;
+        el.classList.add('show');
+        setTimeout(() => el.classList.remove('show'), 2500);
+    }
 }
 
 function atualizarCategorias() {
     const select = document.getElementById('filter-cat');
-    if (!select) return; // TRAVA: Sai da função se não achar o filtro
+    if (!select) return; 
 
     const categoriaAtual = select.value;
     const categorias = [...new Set(items.map(i => i.cat).filter(Boolean))].sort();
@@ -242,11 +168,11 @@ function atualizarCategorias() {
 
 function render() {
     const searchInput = document.getElementById('search');
-    if (!searchInput) return; // TRAVA: Sai da função se não achar a barra de pesquisa
+    if (!searchInput) return; 
 
     const q = searchInput.value.toLowerCase();
     const statusFiltro = document.getElementById('filter-status').value;
-    const categoriaFiltro = document.getElementById('filter-cat').value
+    const categoriaFiltro = document.getElementById('filter-cat').value;
 
     const list = items.filter(i => {
         const busca = i.nome.toLowerCase().includes(q) || i.cat.toLowerCase().includes(q);
@@ -258,11 +184,14 @@ function render() {
     const low = items.filter(i => status(i.qty,i.min) === 'low').length;
     const out = items.filter(i => status(i.qty,i.min) === 'out').length;
 
-    document.getElementById('stats').innerHTML = `
-        <div class="stat"><div class="label">Total de itens</div><div class="value">${items.length}</div></div>
-        <div class="stat"><div class="label">Estoque baixo</div><div class="value warn">${low}</div></div>
-        <div class="stat"><div class="label">Sem estoque</div><div class="value danger">${out}</div></div>
-    `;
+    const statsEl = document.getElementById('stats');
+    if (statsEl) {
+        statsEl.innerHTML = `
+            <div class="stat"><div class="label">Total de itens</div><div class="value">${items.length}</div></div>
+            <div class="stat"><div class="label">Estoque baixo</div><div class="value warn">${low}</div></div>
+            <div class="stat"><div class="label">Sem estoque</div><div class="value danger">${out}</div></div>
+        `;
+    }
 
     const tbody = document.getElementById('tbody');
     const empty = document.getElementById('empty');
@@ -275,7 +204,6 @@ function render() {
         tbody.innerHTML = list.map(i => {
             const s = status(i.qty, i.min);
             
-            // 3. Monta os botões da tabela dependendo do cargo
             let acoesHtml = '';
             if (userRole === 'editor' || userRole === 'admin') {
                 acoesHtml = `
@@ -447,14 +375,11 @@ function updateThemeIcon(theme) {
     if (!icon) return;
     
     if (theme === 'dark') {
-        // Ícone de Sol
         icon.innerHTML = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
     } else {
-        // Ícone de Lua
         icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
     }
 }
-
 
 // ==========================================
 // INICIALIZAÇÃO GERAL
@@ -467,5 +392,5 @@ if (elDate) {
     elDate.textContent = dataHeader.charAt(0).toUpperCase() + dataHeader.slice(1);
 }
 
-initTheme(); // Adicionado para verificar o tema ao carregar
+initTheme();
 verificarSessao();

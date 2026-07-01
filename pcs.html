@@ -32,12 +32,12 @@
     <div class="container">
       <div class="toolbar">
         <div class="toolbar-left">
-          <input type="text" class="search" id="search-pcs" placeholder="🔍 Buscar PC..." oninput="carregarPCs()">
+          <input type="text" class="search" id="search-pcs" placeholder="🔍 Buscar..." oninput="carregarPCs()">
         </div>
         <div class="toolbar-right">
-          <button class="btn primary" onclick="abrirModalPC()">
+          <button id="btn-add-pc" class="btn primary" onclick="abrirModalPC()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            Cadastrar PC
+            Adicionar
           </button>
         </div>
       </div>
@@ -63,7 +63,7 @@
   <!-- Modal Unificado de PCs -->
   <div class="overlay hidden" id="overlay-pc" onclick="if(event.target===this)fecharModalPC()">
     <div class="modal">
-      <h2 id="modal-title">Cadastrar PC</h2>
+      <h2 id="modal-title">Adicionar</h2>
       <input type="hidden" id="f-id">
       
       <div class="field">
@@ -89,7 +89,7 @@
       
       <div class="modal-footer">
         <button class="btn" onclick="fecharModalPC()">Cancelar</button>
-        <button class="btn primary" id="btn-save-pc" onclick="salvarPC()">Cadastrar PC</button>
+        <button class="btn primary" id="btn-save-pc" onclick="salvarPC()">Adicionar</button>
       </div>
     </div>
   </div>
@@ -97,7 +97,7 @@
   <div class="toast" id="toast"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/script.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/pcs.js"></script>
 </body>
 </html>

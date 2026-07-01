@@ -7,13 +7,52 @@
   <link rel="stylesheet" href="css/style.css">
   <title>Hub - Nacional</title>
   <style>
-    /* Estilos extras pro Hub (você pode mover para o style.css depois) */
-    .hub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
-    .hub-card { background: var(--bg-card, #fff); border: 1px solid var(--border-color, #eee); border-radius: 8px; padding: 20px; text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center; text-align: center; transition: all 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-    .hub-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-color: var(--primary-color, #007bff); }
-    .hub-card svg { width: 48px; height: 48px; margin-bottom: 15px; color: var(--primary-color, #007bff); }
-    .hub-card h3 { margin: 0 0 10px 0; font-size: 1.2rem; }
-    .hub-card p { margin: 0; font-size: 0.9rem; opacity: 0.7; }
+    /* Estilos extras pro Hub */
+    .hub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .hub-card {
+      background: var(--bg-card, #fff);
+      border: 1px solid var(--border-color, #eee);
+      border-radius: 8px;
+      padding: 20px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: all 0.2s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .hub-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-color: var(--primary-color, #007bff);
+    }
+
+    .hub-card svg {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 15px;
+      color: var(--primary-color, #007bff);
+    }
+
+    .hub-card h3 {
+      margin: 0 0 10px 0;
+      font-size: 1.2rem;
+    }
+
+    .hub-card p {
+      margin: 0;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
   </style>
 </head>
 
@@ -91,6 +130,6 @@
 
   <div class="toast" id="toast"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/script.js" type="text/javascript"></script>
+  <script src="js/auth.js" type="text/javascript"></script>
 </body>
 </html>
