@@ -13,11 +13,13 @@
     --accent: #185FA5;
     --accent-hover: #0C447C;
     --danger: #dc2626;
-    --danger-bg: #fef2f2;
+    --danger-bg: #ff5e5e5e;
     --danger-hover: #fee2e2;
-    --warning-bg: #fffbeb;
+    --danger-trash: #fef2f2;
+    --danger-btn-brdr: #ff5e5e5e;
+    --warning-bg: #ffe88d;
     --warning-text: #92400e;
-    --success-bg: #f0fdf4;
+    --success-bg: #8dffb3;;
     --success-text: #166534;
     --radius: 8px;
     --radius-lg: 12px;
@@ -42,6 +44,7 @@ html[data-theme="dark"] {
     --danger: #ef4444;
     --danger-bg: #3f1919;
     --danger-hover: #5c2020;
+    --danger-trash: #3d1515;
     --warning-bg: #423010;
     --warning-text: #fbbf24;
     --success-bg: #12301c;
@@ -271,7 +274,9 @@ select.search {
     white-space: nowrap;
 }
 
-.btn:hover { background: var(--btn-hover); }
+.btn:hover {
+    background: var(--btn-hover);
+}
 
 .btn.primary {
     background: var(--accent);
@@ -289,15 +294,19 @@ select.search {
     font-size: 12px;
 }
 
-.btn.icon-btn { padding: 6px 8px; }
-
-.btn.icon-btn.danger {
-    background: var(--danger-bg);
-    color: var(--danger);
-    border-color: #fca5a5;
+.btn.icon-btn {
+    padding: 6px 8px;
 }
 
-.btn.icon-btn.danger:hover { background: var(--danger-hover); }
+.btn.icon-btn.danger {
+    background: var(--danger-trash);
+    color: var(--danger);
+    border-color: var(--danger-btn-brdr);
+}
+
+.btn.icon-btn.danger:hover {
+    background: var(--danger-hover);
+}
 
 /* Table */
 .table-wrap {

@@ -73,11 +73,17 @@
             ? listaPCs.filter(pc => {
                 const funcionario = (pc.nome_funcionario || '').toLowerCase();
                 const serie = (pc.numero_serie || '').toLowerCase();
+                const numeracao = (pc.numeracao || '').toLowerCase();
                 const pecas = (pc.pecas_info || '').toLowerCase();
                 const carteira = (pc.carteira || '').toLowerCase();
                 const supervisor = (pc.supervisor || '').toLowerCase();
-                return funcionario.includes(termo) || serie.includes(termo) || pecas.includes(termo)
-                    || carteira.includes(termo) || supervisor.includes(termo);
+                
+                return funcionario.includes(termo) || 
+                    serie.includes(termo) || 
+                    numeracao.includes(termo) ||
+                    pecas.includes(termo) || 
+                    carteira.includes(termo) || 
+                    supervisor.includes(termo);
             })
             : listaPCs;
 
@@ -88,7 +94,7 @@
         }
 
         if (data.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; opacity:.7;">Nenhum PC encontrado</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; opacity:.7;">Nenhum PC encontrado</td></tr>`;
             return;
         }
 
@@ -115,6 +121,7 @@
 
             return `
                 <tr>
+                    <td>${esc(pc.numeracao || '')}</td>
                     <td>${esc(pc.nome_funcionario)}</td>
                     <td>${esc(pc.numero_serie)}</td>
                     <td>${esc(pc.pecas_info || '')}</td>
@@ -152,6 +159,7 @@
             if (pc) {
                 document.getElementById('f-func').value = pc.nome_funcionario;
                 document.getElementById('f-serie').value = pc.numero_serie;
+                document.getElementById('f-numeracao').value = pc.numeracao || '';
                 document.getElementById('f-pecas').value = pc.pecas_info || '';
                 document.getElementById('f-carteira').value = pc.carteira || '';
                 document.getElementById('f-supervisor').value = pc.supervisor || '';
@@ -161,6 +169,7 @@
         } else {
             document.getElementById('f-func').value = '';
             document.getElementById('f-serie').value = '';
+            document.getElementById('f-numeracao').value = '';
             document.getElementById('f-pecas').value = '';
             document.getElementById('f-carteira').value = '';
             document.getElementById('f-supervisor').value = '';
@@ -183,6 +192,7 @@
         const pcData = {
             nome_funcionario: document.getElementById('f-func').value.trim(),
             numero_serie: document.getElementById('f-serie').value.trim(),
+            numeracao: document.getElementById('f-numeracao').value.trim(),
             pecas_info: document.getElementById('f-pecas').value.trim(),
             carteira: document.getElementById('f-carteira').value.trim(),
             supervisor: document.getElementById('f-supervisor').value.trim()

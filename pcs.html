@@ -46,6 +46,7 @@
         <table>
           <thead>
             <tr>
+              <th>Numeração</th>
               <th>Funcionário</th>
               <th>Nº de Série</th>
               <th>Configuração</th>
@@ -66,6 +67,10 @@
       <h2 id="modal-title">Adicionar</h2>
       <input type="hidden" id="f-id">
       
+      <div class="field">
+        <label>Numeração</label>
+        <input id="f-numeracao" type="text" placeholder="Ex: 001">
+      </div>
       <div class="field">
         <label>Funcionário *</label>
         <input id="f-func" type="text" placeholder="Nome do colaborador">
@@ -97,8 +102,8 @@
   <div class="toast" id="toast"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/darkmode.js" type="text/javascript"></script>
   <script src="js/auth.js"></script>
+  <script src="js/darkmode.js"></script>
   <script src="js/db.js" type="text/javascript"></script>
   <script src="js/pcs.js"></script>
 </body>
