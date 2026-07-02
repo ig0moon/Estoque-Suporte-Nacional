@@ -49,7 +49,7 @@
             return;
         }
 
-        toast('Carregando PCs...');
+        toast('Carregando...');
         const { data, error } = await supabaseClient.from('pcs_escritorio').select('*').order('nome_funcionario');
 
         if (error) {
