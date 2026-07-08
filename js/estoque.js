@@ -216,7 +216,7 @@ function render() {
                     </div>
                 `;
             } else {
-                acoesHtml = `<span style="font-size: 11px; color: var(--text-muted)">Apenas leitura</span>`;
+                acoesHtml = `<span style="font-size: 11px; color: var(--text-muted)">Apenas visualização</span>`;
             }
 
             return `<tr>
@@ -342,12 +342,6 @@ function handleFile(input) {
 // INICIALIZAÇÃO GERAL
 // ==========================================
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-const elDate = document.getElementById('header-date');
-if (elDate) {
-    const dataHeader = new Date().toLocaleDateString('pt-BR', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
-    elDate.textContent = dataHeader.charAt(0).toUpperCase() + dataHeader.slice(1);
-}
 
 initTheme();
 verificarSessao();

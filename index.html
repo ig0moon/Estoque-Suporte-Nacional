@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="./img/nacional.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=brightness_5,dark_mode,desktop_windows,headset_mic,home,inventory_2"/>
   <link rel="stylesheet" href="css/style.css">
   <title>Hub - Nacional</title>
 </head>
@@ -48,33 +49,41 @@
   <div id="app-content">
     <header>
       <div style="display:flex; align-items:center; gap:10px;">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         <h1>Hub - Nacional</h1>
       </div>
-      <span id="header-date"></span>
+
+      <div class="date">
+        <span id="header-date"></span>
+      </div>
       
-      <button class="btn sm icon-btn" onclick="toggleDarkMode()" style="margin-left: 15px;" title="Alternar Modo Escuro">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="theme-icon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      <button class="btn sm icon-btn" onclick="toggleDarkMode()" title="Alternar Modo Escuro">
+        <span id="theme-icon" class="material-symbols-outlined">dark_mode</span>
       </button>
+
       <button class="btn sm" onclick="fazerLogout()" style="margin-left: 10px;">Sair</button>
     </header>
 
     <div class="container">
       <h2>O que deseja fazer hoje?</h2>
 
+      <!-- CARDS -->
       <div class="hub-grid">
-        <!-- CARD DO ESTOQUE -->
         <a href="estoque.html" class="hub-card">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2"/><path d="M3 8h18v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z"/><line x1="9" y1="12" x2="15" y2="12"/></svg>
+          <span class="material-symbols-outlined">inventory_2</span>
           <h3>Gerenciar Estoque</h3>
           <p>Controle de entradas, saídas, itens em falta e inventário.</p>
         </a>
 
-        <!-- EXEMPLO DE UM NOVO CARD FUTURO -->
         <a href="pcs.html" class="hub-card">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <span class="material-symbols-outlined">desktop_windows</span>
           <h3>PCs do Escritório</h3>
           <p>Gestão de hardware, números de séries e funcionários vinculados.</p>
+        </a>
+
+        <a href="fones.html" class="hub-card">
+          <span class="material-symbols-outlined">headset_mic</span>
+          <h3>Fones do Escritório</h3>
+          <p>Controle de fones por supervisores e funcionários vinculados.</p>
         </a>
       </div>
     </div>
@@ -84,5 +93,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/darkmode.js" type="text/javascript"></script>
   <script src="js/auth.js" type="text/javascript"></script>
+  <script src="js/header-date.js" type="text/javascript"></script>
 </body>
 </html>

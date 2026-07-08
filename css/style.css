@@ -116,15 +116,13 @@ body {
     border-color: var(--accent);
 }
 
-.hub-card svg {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 16px;
+.hub-card .material-symbols-outlined {
+    font-size: 40px ;
     color: var(--accent);
     transition: transform 0.2s ease;
 }
 
-.hub-card:hover svg {
+.hub-card:hover .material-symbols-outlined {
     transform: scale(1.1);
 }
 
@@ -148,8 +146,8 @@ header {
     padding: .875rem 1.25rem;
     display: flex;
     align-items: center;
-    gap: .75rem;
     transition: background-color 0.3s ease, border-color 0.3s ease;
+    height: 70px;
 }
 
 header svg {
@@ -173,6 +171,15 @@ header span {
 /* Isso faz a área do título ocupar o meio e empurrar a data e os botões pra direita */
 header > div:first-child {
     flex: 1;
+}
+
+/* Data header*/
+.date {
+    padding-right: 20px;
+}
+
+.date span {
+    text-align: center;
 }
 
 
@@ -587,7 +594,6 @@ td.name {
         padding: 10px;
     }
 
-    /* Esconde a data no header para não quebrar a linha */
     #header-date {
         display: none;
     }

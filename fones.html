@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./img/nacional.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=brightness_5,dark_mode,desktop_windows,headset_mic,home,inventory_2"/>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Fones - Nacional</title>
+</head>
+
+<body>
+    <div id="auth-screen" class="overlay hidden"></div>
+
+    <div id="app-content" style="display: block;">
+        <header>
+            <div style="display:flex; align-items:center; gap:15px; flex: 1;">
+                <a href="index.html" class="btn sm icon-btn" title="Voltar ao Hub">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                </a>
+                <h1>Fones do Escritório</h1>
+            </div>
+    
+            <div class="date">
+                <span id="header-date"></span>
+            </div>
+        
+            <button class="btn sm icon-btn" onclick="toggleDarkMode()" title="Alternar Modo Escuro">
+                <span id="theme-icon" class="material-symbols-outlined">dark_mode</span>
+            </button>
+
+            <button class="btn sm" onclick="fazerLogout()" style="margin-left: 10px;">Sair</button>
+        </header>
+
+        <div class="container">
+            <div class="toolbar">
+                <div class="toolbar-left">
+                    <input type="text" class="search" id="search-fones" placeholder="🔍 Buscar..." oninput="carregarFones()">
+                </div>
+                <div class="toolbar-right">
+                    <button id="btn-add-fone" class="btn primary" onclick="abrirModalFone()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Adicionar
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Numeração</th>
+                            <th>Funcionário</th>
+                            <th>Marca</th>
+                            <th>Supervisor</th>
+                            <th>Carteira</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-fones"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <di class="overlay hidden" id="overlay-fone" onclick="if(event.target===this)fecharModalFone()">
+        <div class="modal">
+            <h2 id="modal-title">Adicionar</h2>
+            <input type="hidden" id="f-id">
+
+            <div class="field">
+                <label>Numeração</label>
+                <input id="f-numeracao" type="text" placeholder="Ex: 001">
+            </div>
+
+            <div class="field">
+                <label>Funcionário *</label>
+                <input id="f-func" type="text" placeholder="Nome do colaborador">
+            </div>
+
+            <div class="field">
+                <label>Marca *</label>
+                <input id="f-marca" type="text" placeholder="Ex: Top Use, Intelbras">
+            </div>
+
+            <div class="field">
+                <label>Supervisor</label>
+                <input id="f-supervisor" type="text" placeholder="Nome do supervisor">
+            </div>
+
+            <div class="field">
+                <label>Carteira</label>
+                <input id="f-carteira" type="text">
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn" onclick="fecharModalFone()">Cancelar</button>
+                <button class="btn primary" id="btn-save-fone" onclick="salvarFone()">Adicionar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/auth.js" type="text/javascript"></script>
+    <script src="js/darkmode.js" type="text/javascript"></script>
+    <script src="js/db.js" type="text/javascript"></script>
+    <script src="js/header-date.js" type="text/javascript"></script>
+    <script src="js/fones.js" type="text/javascript"></script>
+</body>
+</html>
