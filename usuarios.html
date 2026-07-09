@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="./img/nacional.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=brightness_5,dark_mode,search" />
+  <link rel="stylesheet" href="css/style.css">
+  <title>Controle de Usuários - Nacional</title>
+</head>
+
+<body>
+  <div id="app-content" style="display: block;">
+    <header>
+      <div class="header-inner">
+        
+        <div class="header-logo">
+          <button class="btn sm icon-btn" onclick="window.location.href='index.html'" title="Voltar ao Hub">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          </button>
+          <h1>Controle de Usuários</h1>
+        </div>
+
+        <div class="header-user-info">
+          <div id="header-nome" class="user-name">Carregando...</div>
+          <div id="header-cargo" class="user-role">Carregando...</div>
+        </div>
+
+        <div class="header-controls">
+          <div class="date">
+            <span id="header-date"></span>
+          </div>
+
+          <button class="btn sm icon-btn" onclick="toggleDarkMode()" title="Alternar Modo Escuro">
+            <span id="theme-icon" class="material-symbols-outlined">dark_mode</span>
+          </button>
+
+          <button class="btn sm" onclick="fazerLogout()">Sair</button>
+        </div>
+
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <h2>Gerenciamento de Acessos</h2>
+          
+          <div style="position: relative; display: flex; align-items: center; margin-left: 15px;">
+            <span class="material-symbols-outlined" style="position: absolute; left: 10px; color: var(--text-muted); font-size: 18px; pointer-events: none;">search</span>
+            <input type="text" id="busca-usuario" class="search" placeholder="Buscar funcionário..." style="padding-left: 35px;">
+          </div>
+          
+        </div>
+      </div>
+      <p style="margin-bottom: 20px; color: var(--text-muted); font-size: 13px;">
+        Altere os cargos dos funcionários cadastrados. Apenas administradores têm acesso a esta tela.
+      </p>
+
+      <div class="table-wrap">
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>E-mail</th>
+              <th>Data de Cadastro</th>
+              <th>Cargo</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-usuarios">
+            <tr>
+              <td colspan="5" style="text-align: center; color: var(--text-muted);">
+                Carregando usuários...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/darkmode.js" type="text/javascript"></script>
+  <script src="js/auth.js" type="text/javascript"></script>
+  <script src="js/usuarios.js" type="text/javascript"></script>
+</body>
+</html>

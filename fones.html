@@ -14,22 +14,33 @@
 
     <div id="app-content" style="display: block;">
         <header>
-            <div style="display:flex; align-items:center; gap:15px; flex: 1;">
-                <a href="index.html" class="btn sm icon-btn" title="Voltar ao Hub">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                </a>
-                <h1>Fones do Escritório</h1>
-            </div>
-    
-            <div class="date">
-                <span id="header-date"></span>
-            </div>
-        
-            <button class="btn sm icon-btn" onclick="toggleDarkMode()" title="Alternar Modo Escuro">
-                <span id="theme-icon" class="material-symbols-outlined">dark_mode</span>
-            </button>
+            <div class="header-inner">
+                
+                <div class="header-logo">
+                    <a href="index.html" class="btn sm icon-btn" title="Voltar ao Hub">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    </a>
+                    <h1>Fones do Escritório</h1>
+                </div>
 
-            <button class="btn sm" onclick="fazerLogout()" style="margin-left: 10px;">Sair</button>
+                <div class="header-user-info">
+                    <div id="header-nome" class="user-name">Carregando...</div>
+                    <div id="header-cargo" class="user-role">Carregando...</div>
+                </div>
+
+                <div class="header-controls">
+                    <div class="date">
+                        <span id="header-date"></span>
+                    </div>
+
+                    <button class="btn sm icon-btn" onclick="toggleDarkMode()" title="Alternar Modo Escuro">
+                        <span id="theme-icon" class="material-symbols-outlined">dark_mode</span>
+                    </button>
+
+                    <button class="btn sm" onclick="fazerLogout()">Sair</button>
+                </div>
+
+            </div>
         </header>
 
         <div class="container">
@@ -63,7 +74,7 @@
         </div>
     </div>
 
-    <di class="overlay hidden" id="overlay-fone" onclick="if(event.target===this)fecharModalFone()">
+    <div class="overlay hidden" id="overlay-fone" onclick="if(event.target===this)fecharModalFone()">
         <div class="modal">
             <h2 id="modal-title">Adicionar</h2>
             <input type="hidden" id="f-id">

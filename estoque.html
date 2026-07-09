@@ -11,28 +11,37 @@
 </head>
 
 <body>
-  <!-- Mantemos as modais invisíveis de auth pro caso do script.js procurar por elas -->
   <div id="auth-screen" class="overlay hidden"></div>
 
   <div id="app-content">
     <header>
-      <div style="display:flex; align-items:center; gap:15px;">
-        <!-- Botão de Voltar ao Hub -->
-        <a href="index.html" class="btn sm icon-btn" title="Voltar ao Hub" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-        </a>
-        <h1>Estoque - Nacional</h1>
-      </div>
+      <div class="header-inner">
+        
+        <div class="header-logo">
+          <a href="index.html" class="btn sm icon-btn" title="Voltar ao Hub" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          </a>
+          <h1>Estoque - Nacional</h1>
+        </div>
 
-      <div class="date">
-          <span id="header-date"></span>
-      </div>
-      
-      <button class="btn sm icon-btn" onclick="toggleDarkMode()" title="Alternar Modo Escuro">
-        <span id="theme-icon" class="material-symbols-outlined">dark_mode</span>
-      </button>
+        <div class="header-user-info">
+          <div id="header-nome" class="user-name">Carregando...</div>
+          <div id="header-cargo" class="user-role">Carregando...</div>
+        </div>
 
-      <button class="btn sm" onclick="fazerLogout()" style="margin-left: 10px;">Sair</button>
+        <div class="header-controls">
+          <div class="date">
+            <span id="header-date"></span>
+          </div>
+
+          <button class="btn sm icon-btn" onclick="toggleDarkMode()" title="Alternar Modo Escuro">
+            <span id="theme-icon" class="material-symbols-outlined">dark_mode</span>
+          </button>
+
+          <button class="btn sm" onclick="fazerLogout()">Sair</button>
+        </div>
+
+      </div>
     </header>
 
     <div class="container">
