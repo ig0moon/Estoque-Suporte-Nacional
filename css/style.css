@@ -315,7 +315,9 @@ select.search {
     white-space: nowrap;
 }
 
-.btn:hover { background: var(--btn-hover); }
+.btn:hover { 
+    background: var(--btn-hover); 
+}
 
 .btn.primary {
     background: var(--accent);
@@ -345,6 +347,21 @@ select.search {
 
 .btn.icon-btn.danger:hover {
     background: var(--danger-hover);
+}
+
+.darkmode {
+    width: 40px;
+    background-color: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    align-items: center;
+    text-align: center;
+}
+
+#theme-icon {
+    margin-top: 3px;
+    font-size: 21px;
 }
 
 /* Table */
