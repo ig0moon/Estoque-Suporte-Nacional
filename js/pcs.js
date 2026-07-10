@@ -164,7 +164,7 @@
                 document.getElementById('f-carteira').value = pc.carteira || '';
                 document.getElementById('f-supervisor').value = pc.supervisor || '';
                 modalTitle.textContent = 'Editar PC';
-                btnSave.textContent = 'Salvar Alterações';
+                btnSave.textContent = 'Salvar';
             }
         } else {
             document.getElementById('f-func').value = '';
@@ -174,7 +174,7 @@
             document.getElementById('f-carteira').value = '';
             document.getElementById('f-supervisor').value = '';
             modalTitle.textContent = 'Adicionar';
-            btnSave.textContent = 'Cadastrar PC';
+            btnSave.textContent = 'Salvar';
         }
         
         overlay.classList.remove('hidden');

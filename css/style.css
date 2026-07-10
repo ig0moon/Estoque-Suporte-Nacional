@@ -357,12 +357,19 @@ select.search {
     border-radius: var(--radius);
     align-items: center;
     text-align: center;
+    transition: all .15s ease;
+}
+
+.darkmode:hover {
+    cursor: pointer;
+    background-color: var(--btn-hover);
 }
 
 #theme-icon {
     margin-top: 3px;
-    font-size: 21px;
+    font-size: 20px;
 }
+
 
 /* Table */
 .table-wrap {

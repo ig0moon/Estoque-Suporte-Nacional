@@ -34,7 +34,7 @@
             <span id="header-date"></span>
           </div>
 
-          <button class="btn sm icon-btn" onclick="toggleDarkMode()" title="Alternar Modo Escuro">
+          <button class="darkmode" onclick="toggleDarkMode()" title="Alternar Modo Escuro">
             <span id="theme-icon" class="material-symbols-outlined">dark_mode</span>
           </button>
 
@@ -102,7 +102,7 @@
 
   <div class="overlay hidden" id="overlay" onclick="if(event.target===this)closeModal()">
     <div class="modal" role="dialog">
-      <h2 id="modal-title">Novo item</h2>
+      <h2 id="modal-title">Adicionar</h2>
       <div class="field">
         <label for="f-nome">Nome *</label>
         <input id="f-nome" type="text" placeholder="Ex: Cabo HDMI 2m">

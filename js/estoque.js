@@ -236,7 +236,7 @@ function render() {
 // ==========================================
 function openModal(id) {
     editId = id || null;
-    document.getElementById('modal-title').textContent = id ? 'Editar item' : 'Novo item';
+    document.getElementById('modal-title').textContent = id ? 'Editar item' : 'Adicionar';
     const item = id ? items.find(i => i.id === id) : null;
     
     document.getElementById('f-nome').value = item?.nome || '';
