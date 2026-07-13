@@ -178,7 +178,8 @@ async function carregarDadosHeader(userId) {
     if (elNome) {
         // Pega apenas o primeiro nome para ficar mais amigável
         const primeiroNome = data.nome ? data.nome.split(' ')[0] : 'Usuário';
-        elNome.textContent = `Olá, ${primeiroNome}!`;
+        const primeiroNomeFormatado = primeiroNome.charAt(0).toUpperCase() + primeiroNome.slice(1).toLowerCase();
+        elNome.textContent = `Olá, ${primeiroNomeFormatado}!`;
     }
     
     if (elCargo) {
