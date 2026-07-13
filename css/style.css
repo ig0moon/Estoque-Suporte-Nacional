@@ -17,6 +17,7 @@
     --danger-hover: #fee2e2;
     --danger-trash: #fef2f2;
     --danger-btn-brdr: #ff5e5e5e;
+    --dm-btn: #8d7300;
     --warning-bg: #ffe88d;
     --warning-text: #92400e;
     --success-bg: #8dffb3;
@@ -45,6 +46,7 @@ html[data-theme="dark"] {
     --danger-bg: #3f1919;
     --danger-hover: #5c2020;
     --danger-trash: #3d1515;
+    --dm-btn: #ffae00;
     --warning-bg: #423010;
     --warning-text: #fbbf24;
     --success-bg: #12301c;
@@ -350,7 +352,7 @@ select.search {
 }
 
 .darkmode {
-    width: 40px;
+    padding: 0px 11px;
     background-color: var(--surface);
     color: var(--text);
     border: 1px solid var(--border);
@@ -366,8 +368,9 @@ select.search {
 }
 
 #theme-icon {
+    color: var(--dm-btn);
     margin-top: 3px;
-    font-size: 20px;
+    font-size: 19px;
 }
 
 
