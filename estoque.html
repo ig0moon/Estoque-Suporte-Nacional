@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="./img/nacional.ico" type="image/x-icon">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=brightness_5,dark_mode,desktop_windows,headset_mic,home,inventory_2"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&"/>
   <link rel="stylesheet" href="css/style.css">
   <title>Estoque - Nacional</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -48,8 +48,20 @@
       <div class="stats" id="stats"></div>
 
       <div class="toolbar">
-        <div class="toolbar-left">
-          <input type="text" class="search" id="search" placeholder="🔍 Buscar..." oninput="render()">
+        <div class="toolbar-left" style="position: relative; display: flex; align-items: center">
+          <span
+              class="material-symbols-outlined"
+              style="
+                position: absolute;
+                left: 10px;
+                color: var(--text-muted);
+                font-size: 18px;
+                pointer-events: none;
+              "
+              >search</span
+            >
+          <input type="text" class="search" id="search" placeholder="Buscar..." oninput="render()"
+          style="padding-left: 35px;">
 
           <select id="filter-status" onchange="render()" class="search" style="width:170px">
             <option value="">Todos Status</option>

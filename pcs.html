@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="./img/nacional.ico" type="image/x-icon">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=brightness_5,dark_mode,desktop_windows,headset_mic,home,inventory_2"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&"/>
   <link rel="stylesheet" href="css/style.css">
   <title>PCs - Nacional</title>
 </head>
@@ -45,8 +45,19 @@
 
     <div class="container">
       <div class="toolbar">
-        <div class="toolbar-left">
-          <input type="text" class="search" id="search-pcs" placeholder="🔍 Buscar..." oninput="carregarPCs()">
+        <div class="toolbar-left" style="position: relative; display: flex; align-items: center">
+          <span
+              class="material-symbols-outlined"
+              style="
+                position: absolute;
+                left: 10px;
+                color: var(--text-muted);
+                font-size: 18px;
+                pointer-events: none;
+              "
+              >search</span
+            >
+          <input type="text" class="search" id="search-pcs" placeholder="Buscar..." oninput="carregarPCs()" style="padding-left: 35px;">
         </div>
         <div class="toolbar-right">
           <button id="btn-add-pc" class="btn primary" onclick="abrirModalPC()">

@@ -9,7 +9,7 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&"
     />
     <link rel="stylesheet" href="css/style.css" />
-    <title>Fones - Nacional</title>
+    <title>Celulares - Nacional</title>
   </head>
 
   <body>
@@ -34,7 +34,7 @@
                 <polyline points="12 19 5 12 12 5"></polyline>
               </svg>
             </a>
-            <h1>Fones do Escritório</h1>
+            <h1>Celulares Corporativos</h1>
           </div>
 
           <div class="header-user-info">
@@ -64,7 +64,10 @@
 
       <div class="container">
         <div class="toolbar">
-          <div class="toolbar-left" style="position: relative; display: flex; align-items: center">
+          <div
+            class="toolbar-left"
+            style="position: relative; display: flex; align-items: center"
+          >
             <span
               class="material-symbols-outlined"
               style="
@@ -79,17 +82,18 @@
             <input
               type="text"
               class="search"
-              id="search-fones"
+              id="search-celulares"
               placeholder="Buscar..."
-              oninput="carregarFones()"
-              style="padding-left: 35px"
+              oninput="carregarCelulares()
+              "
+              style="padding-left: 35px;"
             />
           </div>
           <div class="toolbar-right">
             <button
-              id="btn-add-fone"
+              id="btn-add-celular"
               class="btn primary"
-              onclick="abrirModalFone()"
+              onclick="abrirModalCelular()"
             >
               <svg
                 width="14"
@@ -113,15 +117,16 @@
           <table>
             <thead>
               <tr>
-                <th>Numeração</th>
-                <th>Funcionário</th>
-                <th>Marca</th>
+                <th>Número</th>
+                <th>Modelo</th>
+                <th>Chip 1</th>
+                <th>Chip 2</th>
                 <th>Supervisor</th>
                 <th>Carteira</th>
                 <th>Ações</th>
               </tr>
             </thead>
-            <tbody id="tbody-fones"></tbody>
+            <tbody id="tbody-celulares"></tbody>
           </table>
         </div>
       </div>
@@ -129,36 +134,46 @@
 
     <div
       class="overlay hidden"
-      id="overlay-fone"
-      onclick="if (event.target === this) fecharModalFone();"
+      id="overlay-celular"
+      onclick="if (event.target === this) fecharModalCelular();"
     >
       <div class="modal">
-        <h2 id="modal-title">Adicionar</h2>
-        <input type="hidden" id="f-id" />
+        <h2 id="modal-title">Adicionar Celular</h2>
+        <input type="hidden" id="c-id" />
 
         <div class="field">
-          <label>Numeração</label>
-          <input id="f-numeracao" type="text" placeholder="Ex: 001" />
-        </div>
-
-        <div class="field">
-          <label>Funcionário *</label>
-          <input id="f-func" type="text" placeholder="Nome do colaborador" />
-        </div>
-
-        <div class="field">
-          <label>Marca *</label>
+          <label>Número *</label>
           <input
-            id="f-marca"
+            id="c-numero"
             type="text"
-            placeholder="Ex: Top Use, Intelbras"
+            placeholder="Ex: 001 ou Patrimônio"
           />
+        </div>
+
+        <div class="field">
+          <label>Modelo *</label>
+          <input
+            id="c-modelo"
+            type="text"
+            placeholder="Ex: Samsung Galaxy A54"
+          />
+        </div>
+
+        <div class="field" style="display: flex; gap: 10px">
+          <div style="flex: 1">
+            <label>Chip 1</label>
+            <input id="c-chip1" type="text" placeholder="Ex: (11) 99999-9999" />
+          </div>
+          <div style="flex: 1">
+            <label>Chip 2</label>
+            <input id="c-chip2" type="text" placeholder="Ex: (11) 88888-8888" />
+          </div>
         </div>
 
         <div class="field">
           <label>Supervisor</label>
           <input
-            id="f-supervisor"
+            id="c-supervisor"
             type="text"
             placeholder="Nome do supervisor"
           />
@@ -166,12 +181,16 @@
 
         <div class="field">
           <label>Carteira</label>
-          <input id="f-carteira" type="text" />
+          <input id="c-carteira" type="text" placeholder="Ex: Vendas" />
         </div>
 
         <div class="modal-footer">
-          <button class="btn" onclick="fecharModalFone()">Cancelar</button>
-          <button class="btn primary" id="btn-save-fone" onclick="salvarFone()">
+          <button class="btn" onclick="fecharModalCelular()">Cancelar</button>
+          <button
+            class="btn primary"
+            id="btn-save-celular"
+            onclick="salvarCelular()"
+          >
             Adicionar
           </button>
         </div>
@@ -185,6 +204,7 @@
     <script src="js/darkmode.js" type="text/javascript"></script>
     <script src="js/db.js" type="text/javascript"></script>
     <script src="js/header-date.js" type="text/javascript"></script>
-    <script src="js/fones.js" type="text/javascript"></script>
+    <!-- Substitua pelo caminho correto do seu arquivo js -->
+    <script src="js/celulares.js" type="text/javascript"></script>
   </body>
 </html>
